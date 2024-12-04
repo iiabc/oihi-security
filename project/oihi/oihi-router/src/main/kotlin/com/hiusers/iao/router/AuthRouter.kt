@@ -13,6 +13,7 @@ import com.hiusers.iao.api.manager.SecurityManager.hashPassword
 import com.hiusers.iao.oihi.entity.UserManager.users
 import com.hiusers.iao.oihi.entity.data.UserInfo
 import com.hiusers.iao.router.body.AuthBody
+import com.hiusers.iao.router.body.RegisterBody
 import org.ktorm.dsl.eq
 import org.ktorm.entity.add
 import org.ktorm.entity.find
@@ -53,10 +54,11 @@ object AuthRouter {
      * 注册
      */
     @NodeRouter("/register", RequestType.POST)
-    fun register(@PathParam("data", ParamType.BODY) body: AuthBody): SaResult {
+    fun register(@PathParam("data", ParamType.BODY) body: RegisterBody): SaResult {
         val user = UserInfo {
-            name = name
-            password = password.hashPassword()
+            name = body.name
+            nickname = body.nickname
+            password = body.password.hashPassword()
         }
         val userId = database?.users?.add(user) ?: return SaResult.error("注册失败")
         StpUtil.login(userId)

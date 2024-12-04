@@ -8,13 +8,16 @@ import org.ktorm.dsl.eq
 import org.ktorm.entity.Entity
 import org.ktorm.entity.filter
 
-interface UserInfo: Entity<UserInfo> {
+interface UserInfo : Entity<UserInfo> {
 
-    companion object: Entity.Factory<UserInfo>()
+    companion object : Entity.Factory<UserInfo>()
 
     val id: Long
 
     var name: String
+
+    // 昵称
+    var nickname: String
 
     var password: String
 
