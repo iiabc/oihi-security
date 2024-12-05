@@ -29,6 +29,9 @@ object AuthRouter {
      */
     @NodeRouter("/login", RequestType.POST)
     fun login(@PathParam("data", ParamType.BODY) body: AuthBody): SaResult {
+        if (body.name == null || body.password == null) {
+            return SaResult.error("用户名或密码为空")
+        }
         val user = database?.users?.find {
             it.name eq body.name
         }
