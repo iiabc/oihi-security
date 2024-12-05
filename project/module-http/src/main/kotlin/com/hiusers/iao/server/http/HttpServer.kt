@@ -34,6 +34,12 @@ object HttpServer {
                     WebsocketRequestInterceptionEvent(context, ws).call()
                 }
             }
+            // 测试环境允许跨域 TODO
+            it.bundledPlugins.enableCors { cors ->
+                cors.addRule { rule ->
+                    rule.anyHost()
+                }
+            }
         }
     }
 
