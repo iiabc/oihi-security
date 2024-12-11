@@ -41,7 +41,7 @@ object AuthRouter {
             val userInfo = StpUtil.getTokenInfo()
             if (userInfo.isLogin) {
                 return SaResult.data(
-                    ResultUserInfo(user.id.toString(), user.nickname, userInfo.tokenValue)
+                    ResultUserInfo(user.id.toString(), user.name, user.nickname, userInfo.tokenValue)
                 )
             } else {
                 return SaResult.error("登录失败")
@@ -63,7 +63,7 @@ object AuthRouter {
             val id = userInfo.loginId as Long
             val user = database?.users?.find { it.id eq id }
             return SaResult.data(
-                ResultUserInfo(user?.id?.toString(), user?.nickname, userInfo.tokenValue)
+                ResultUserInfo(user?.id?.toString(), user?.name, user?.nickname, userInfo.tokenValue)
             )
         }
     }
@@ -100,7 +100,7 @@ object AuthRouter {
         database?.users?.add(user) ?: return SaResult.error("注册失败")
         StpUtil.login(user.id)
         val userInfo = StpUtil.getTokenInfo()
-        return SaResult.data(ResultUserInfo(user.id.toString(), user.nickname, userInfo.tokenValue))
+        return SaResult.data(ResultUserInfo(user.id.toString(), user.name, user.nickname, userInfo.tokenValue))
     }
 
 }
