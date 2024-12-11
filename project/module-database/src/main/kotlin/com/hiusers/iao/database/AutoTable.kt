@@ -21,7 +21,6 @@ object AutoTable: ClassVisitor(10) {
 
     override fun visitStart(clazz: ReflexClass) {
         if (clazz.hasAnnotation(CreateTable::class.java)) {
-            info("&b>>>>>>>>>>&6${clazz.simpleName}")
             var tableName = ""
             val columnSql = mutableListOf<String>() // 使用列表来存储列的 SQL 语句
             clazz.structure.fields.forEach {
@@ -60,11 +59,8 @@ object AutoTable: ClassVisitor(10) {
 
             if (tableName.isNotEmpty()) {
                 val createTableSql = "CREATE TABLE IF NOT EXISTS $tableName (${columnSql.joinToString(", ")});"
-                info("&csql: &6$createTableSql")
-                info("&edatabase ${DatabaseManager.database}")
                 try {
                     DatabaseManager.database?.useConnection { conn ->
-                        info("&b连接成功")
                         val stmt = conn.createStatement()
                         // 执行 SQL 语句
                         stmt.executeUpdate(createTableSql)
